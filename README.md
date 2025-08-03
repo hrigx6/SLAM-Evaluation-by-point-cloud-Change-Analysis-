@@ -1,70 +1,67 @@
-🐍 COBRA Snake Robot SLAM Evaluation
-Comparing Point Clouds and Trajectories from Stereo and LiDAR-Based SLAM
+# 🐍 COBRA Snake Robot SLAM Evaluation  
+### **Stereo + LiDAR SLAM | Point Cloud & Trajectory Analysis**
 
-📌 Overview
-This repository contains the SLAM evaluation pipeline I developed as part of my thesis work. The setup involves a custom test rig with an Intel RealSense camera and an Ouster Rev-C LiDAR mounted on the head of the COBRA snake robot, used to:
+---
 
-Record synchronized sensor data during robot motion
+## 📌 Overview
 
-Run RTAB-Map (stereo SLAM) and LIO-SAM (LiDAR SLAM)
+This project evaluates the performance of stereo and LiDAR-based SLAM methods on a **snake-like robot platform** (COBRA). A custom test rig was built with:
 
-Compare both trajectories and point clouds against OptiTrack ground truth
+- **Intel RealSense D435i (stereo RGB-D)**
+- **Ouster OS1 Rev-C LiDAR**
+- **OptiTrack motion capture system** for ground truth
 
-Analyze performance over various environment types (objects, walls, floors, terrain)
+The goal: **Compare point clouds and trajectories** from:
+- RTAB-Map (stereo)
+- LIO-SAM (LiDAR)
+- OptiTrack (ground truth)
 
-📷 Hardware Setup
-Platform: COBRA Snake Robot
+---
 
-Sensors:
+## 🛠️ Tools & Libraries
 
-Intel RealSense D435i (Stereo RGB-D)
+- **SLAM**: RTAB-Map, LIO-SAM  
+- **Point Cloud Processing**: PCL  
+- **3D Comparison & Visualization**: CloudCompare  
+- **Data Handling**: ROS (ROS1 & ROS2), Python, C++
 
-Ouster OS1 Rev-C (LiDAR)
+---
 
-OptiTrack motion capture (ground truth)
+## 🧪 Methodology
 
-🛠️ Tools Used
-SLAM: RTAB-Map, LIO-SAM
+### 1. **Data Collection**
+- Synchronized capture of RealSense, LiDAR, and OptiTrack data during robot motion  
+- Recorded as ROS bag files
 
-Point Cloud Processing: PCL
+### 2. **SLAM Execution**
+- RTAB-Map and LIO-SAM run on same dataset  
+- Extracted point clouds and trajectories
 
-Alignment & Visualization: CloudCompare
+### 3. **Preprocessing**
+- Point cloud filtering and voxel downsampling (PCL)
+- Segmentation by environment types (walls, terrain, isolated objects)
 
-Languages: C++, Python, ROS 1/2
+### 4. **Cloud Alignment & Error Analysis**
+- Point clouds aligned using **ICP**
+- Converted to **meshes**
+- Performed **triangulated distance analysis** in CloudCompare  
+- Generated **error heatmaps**
 
-Data Processing: ICP, voxel grid filtering, triangulated mesh error analysis
+### 5. **Trajectory Evaluation**
+- Compared SLAM-estimated paths to OptiTrack ground truth using:
+  - RMSE
+  - ATE (Absolute Trajectory Error)
 
-📈 Methodology
-Data Collection: Capture RGB-D, LiDAR, and ground truth trajectories
+---
 
-SLAM Execution: Run RTAB-Map and LIO-SAM on recorded bags
+## 📈 Key Results
 
-Point Cloud Extraction: Generate global maps from both methods
+- Heatmaps show spatial error distribution (red = high deviation)
+- Mesh-based metrics more robust than point-to-point comparisons
+- RTAB-Map better in close-range object mapping; LIO-SAM more consistent over terrain
+- OptiTrack used as reference to validate both spatial and motion accuracy
 
-Preprocessing:
+---
 
-Outlier removal
-
-Voxel downsampling
-
-Segmentation (walls, objects, terrain)
-
-Cloud Comparison:
-
-Use CloudCompare for ICP alignment
-
-Convert to meshes
-
-Analyze triangulated distance to ground truth
-
-Trajectory Evaluation:
-
-Compare against OptiTrack using RMSE and ATE metrics
-
-🧪 Results
-Heatmaps visualize mapping errors (red = high deviation from ground truth)
-
-Quantitative insights into SLAM accuracy in various mapping conditions
-
-Highlighted strengths/weaknesses of stereo vs LiDAR SLAM in complex terrain
+## 📂 Repository Structure
 
